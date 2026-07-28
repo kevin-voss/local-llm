@@ -2,7 +2,7 @@
 feature: Local Coder LLM from scratch (M4 16GB)
 slug: local-coder-llm-m4
 status: VERIFIED
-baseline_sha: none
+baseline_sha: 4bf0b6ff74f62dfbc12bddc482a4cf77ad93f039
 created: 2026-07-28
 updated: 2026-07-28
 ---

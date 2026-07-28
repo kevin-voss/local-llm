@@ -192,20 +192,20 @@ One agent, sequential. **Path A only** — do not add Ollama, GGUF, or pretraine
 
 | Step / AC | Status | Files or evidence | Tests | Commit |
 |-----------|--------|-------------------|-------|--------|
-| STEP-01 | done | `AGENTS.md`, `README.md`, `.gitignore` Path A | docs + gitignore caps | _(impl)_ |
-| STEP-02 | done | `data/style/*`, generator fixes for compile | banned `any`/`React.FC` = 0 | _(impl)_ |
-| STEP-03 | done | `scripts/prepare_data.py`, `make data` | train.jsonl + corpus.txt | _(impl)_ |
-| STEP-04 | done | `model/*` nano GPT 11.36M params | `make test` 2 passed | _(impl)_ |
-| STEP-05 | done | `scripts/train_tokenizer.py`, ByteLevel decoder | encode/decode roundtrip | _(impl)_ |
-| STEP-06 | done | `train.py` → `checkpoints/local-coder.pt` | 2000 steps MPS loss≈0.027 | _(impl)_ |
-| STEP-07 | done | `generate.py` REPL + `--prompt` | missing ckpt exit 2; smoke Button | _(impl)_ |
-| STEP-08 | done | `scripts/extract_code.py`, `eval/fixtures` | tsc/eslint/javac PASS | _(impl)_ |
-| STEP-09 | done | `eval/run_eval.py`, `cases.yaml`, `AB_CHECKLIST.md` | structural+latency PASS | _(impl)_ |
-| STEP-10 | done | no `modelfiles/` / export_ollama; Makefile Path A | rg ollama = reject-only | _(impl)_ |
-| AC-01 | pass | median TTFT 0.012s, 73.9 tok/s MPS | `make eval-latency` | _(impl)_ |
-| AC-02 | pass | random-init `train.py`; no pretrained LLM load | review + `make test` | _(impl)_ |
-| AC-03 | pass | react-button, react-counter | `make eval-structural` | _(impl)_ |
-| AC-04 | pass | java-record, java-service | `make eval-structural` | _(impl)_ |
-| AC-05 | pass | 100 TS + 100 Java goldens | `make eval-goldens` | _(impl)_ |
-| AC-06 | pass | `make data tokenizer train` + generate | pipeline smoke | _(impl)_ |
-| AC-07 | pass | `eval/AB_CHECKLIST.md` non-gating | manual checklist present | _(impl)_ |
+| STEP-01 | done | `AGENTS.md`, `README.md`, `.gitignore` Path A | docs + gitignore caps | `4bf0b6f` |
+| STEP-02 | done | `data/style/*`, generator fixes for compile | banned `any`/`React.FC` = 0 | `4bf0b6f` |
+| STEP-03 | done | `scripts/prepare_data.py`, `make data` | train.jsonl + corpus.txt | `4bf0b6f` |
+| STEP-04 | done | `model/*` nano GPT 11.36M params | `make test` 2 passed | `4bf0b6f` |
+| STEP-05 | done | `scripts/train_tokenizer.py`, ByteLevel decoder | encode/decode roundtrip | `4bf0b6f` |
+| STEP-06 | done | `train.py` → `checkpoints/local-coder.pt` | 2000 steps MPS loss≈0.027 | `4bf0b6f` |
+| STEP-07 | done | `generate.py` REPL + `--prompt` | missing ckpt exit 2; smoke Button | `4bf0b6f` |
+| STEP-08 | done | `scripts/extract_code.py`, `eval/fixtures` | tsc/eslint/javac PASS | `4bf0b6f` |
+| STEP-09 | done | `eval/run_eval.py`, `cases.yaml`, `AB_CHECKLIST.md` | structural+latency PASS | `4bf0b6f` |
+| STEP-10 | done | no `modelfiles/` / export_ollama; Makefile Path A | rg ollama = reject-only | `4bf0b6f` |
+| AC-01 | pass | median TTFT 0.012s, 73.9 tok/s MPS | `make eval-latency` | `4bf0b6f` |
+| AC-02 | pass | random-init `train.py`; no pretrained LLM load | review + `make test` | `4bf0b6f` |
+| AC-03 | pass | react-button, react-counter | `make eval-structural` | `4bf0b6f` |
+| AC-04 | pass | java-record, java-service | `make eval-structural` | `4bf0b6f` |
+| AC-05 | pass | 100 TS + 100 Java goldens | `make eval-goldens` | `4bf0b6f` |
+| AC-06 | pass | `make data tokenizer train` + generate | pipeline smoke | `4bf0b6f` |
+| AC-07 | pass | `eval/AB_CHECKLIST.md` non-gating | manual checklist present | `4bf0b6f` |
