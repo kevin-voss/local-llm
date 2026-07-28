@@ -46,6 +46,10 @@ huggingface/
 .env.*
 !.env.example
 
+# Agent sandbox (keep directory via .gitkeep)
+workspace/*
+!workspace/.gitkeep
+
 # Misc
 *.log
 .mlx/

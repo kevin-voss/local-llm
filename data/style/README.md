@@ -24,10 +24,15 @@ Each line is one JSON object:
 |------|-------|
 | `react-ts.jsonl` | React + TypeScript (function components, `interface` Props, Hooks) |
 | `java.jsonl` | Java 17+ (records, services, single-file units) |
-| `SYSTEM.md` | Shared system prompt (packed into train sequences) |
+| `tools.jsonl` | CLI agent tool traces (JSON fences: mkdir/write/read/run/done) |
+| `SYSTEM.md` | Shared system prompt for code style rows |
+| `SYSTEM_TOOLS.md` | System prompt for tool-agent rows / `agent.py` |
 
 ## Contribution rules
 
 - Assistant targets must not contain `any` or `React.FC` in TS/React examples.
 - Prefer quality over bulk; keep examples self-contained and compilable.
-- Regenerate via `python scripts/generate_style_data.py` only when intentionally refreshing committed files.
+- Tool assistants must contain a parseable fenced JSON block (language tag `json`) with one tool object.
+- Regenerate style via `python scripts/generate_style_data.py` only when intentionally refreshing committed files.
+- Regenerate tools via `python scripts/generate_tools_data.py` when refreshing tool traces.
+- After changing tool data: `make data tokenizer train` so the checkpoint learns the protocol.

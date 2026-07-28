@@ -1,12 +1,20 @@
 # Local Coder LLM from scratch (M4 16GB)
 
-**Path A — 100% from scratch.** Build a small decoder-only Transformer in Python, train your own weights, run them with `generate.py`. **No Ollama.**
+**Path A — 100% from scratch.** Build a small decoder-only Transformer in Python, train your own weights, then:
 
-Target stack flavor in the data: **Java 17+**, **TypeScript**, **React**. Host: MacBook Pro **M4 / 16GB**.
+- **Text-only:** `generate.py` (no tools)
+- **Small apps / scaffolds:** `agent.py` (fixed tools under `workspace/`)
+
+**No Ollama.** No MCP, LangChain, or cloud agent stack.
+
+Target stack flavor in the data: **Java 17+**, **TypeScript**, **React**, plus **tool-trace** rows for the CLI agent. Host: MacBook Pro **M4 / 16GB**.
 
 ## Honest expectations
 
-Training a model from scratch that writes solid React/Java needs **massive** data and compute. On 16GB we ship a **nano** model (~10–40M params). It is for learning the full loop (data → tokenize → train → generate → eval). It will **not** match pretrained 7B coder models.
+Training a model from scratch that writes solid React/Java or builds real apps needs **massive** data and compute. On 16GB we ship a **nano** model (~10–40M params).
+
+- `generate.py` is for learning the full loop (data → tokenize → train → generate → eval). It will **not** match pretrained 7B coder models.
+- `agent.py` is for **small taught scaffolds** (e.g. one Python file + folder) after tool JSONL is mixed in and you retrain. It is **not** a Spring Boot / AWS / production app builder.
 
 ## Hardware
 
@@ -15,7 +23,8 @@ Training a model from scratch that writes solid React/Java needs **massive** dat
 | Chip | Apple Silicon M4 |
 | Memory | **16GB unified** (hard budget) |
 | Runtime | PyTorch **MPS** (CPU fallback with warning) |
-| Infer | `generate.py` + `checkpoints/local-coder.pt` |
+| Infer (text) | `generate.py` + `checkpoints/local-coder.pt` |
+| Infer (tools) | `agent.py` + same checkpoint → `workspace/` |
 
 Close browsers/IDEs during `make train`.
 
@@ -35,41 +44,56 @@ pip install -r requirements.txt
 ## Quickstart
 
 ```bash
-make data          # data/processed/
+make data          # data/processed/ (includes data/style/tools.jsonl)
 make tokenizer     # checkpoints/tokenizer.json
-make train         # checkpoints/local-coder.pt
+make train         # checkpoints/local-coder.pt  (retrain after tool data)
 python generate.py --prompt "Write a React button with typed props"
+python agent.py --task "Create hello/main.py that prints Hello" --yes
 make eval          # latency + structural + golden compile
+make eval-agent    # parser/sandbox units + toy agent task
 ```
 
 Daily use:
 
 ```bash
+# Text-only (unchanged Path A surface)
 python generate.py
+
+# Build a tiny scaffold with tools (sandbox: workspace/)
+python agent.py
+python agent.py --task "Create a Python hello app under hello/" --yes
 ```
+
+**Retrain after tool data:** whenever you change `data/style/tools.jsonl` or `SYSTEM_TOOLS.md`, run `make data tokenizer train` so the checkpoint learns the JSON tool protocol.
 
 ## Pipeline
 
 ```text
-style JSONL + filtered HF
+style JSONL (+ tools.jsonl) + filtered HF
   → prepare_data
   → train_tokenizer (BPE)
   → train.py (random init)
-  → generate.py
+  → generate.py          # text-only
+  → agent.py             # tools → workspace/
 ```
 
 ## Data
 
 - House style: `data/style/*.jsonl` + `data/style/SYSTEM.md`
+- Tool traces: `data/style/tools.jsonl` + `data/style/SYSTEM_TOOLS.md`
 - HF rows filtered/capped in `scripts/prepare_data.py`
 - Train does **not** call cloud LLM APIs
 
-## Train / generate
+## Train / generate / agent
 
 - Model code: `model/` (our Transformer)
 - Config caps: `model/config.yaml`
 - Checkpoint: `checkpoints/local-coder.pt`
-- Infer entrypoint: `generate.py`
+- Text entrypoint: `generate.py`
+- Agent entrypoint: `agent.py` (tools: `mkdir`, `write_file`, `read_file`, `run`, `done`)
+- Sandbox: all FS ops under `workspace/` (gitignored contents)
+
+`run` is allowlisted only (`ls`, `pwd`, `python3 -m py_compile <file>`). Interactive use prompts before `run` unless you pass `--yes`.
 
 ## Eval
 
@@ -78,13 +102,14 @@ style JSONL + filtered HF
 | Latency | `make eval-latency` | Warm TTFT &lt; 2s, ≥ 15 tok/s on MPS |
 | Structural | `make eval-structural` | Fences + house-style cues from the model |
 | Goldens | `make eval-goldens` | Committed style assistants compile/lint |
-| Full | `make eval` | All of the above |
+| Agent | `make eval-agent` | Parser/sandbox/allowlist units + toy agent task |
+| Full | `make eval` | Latency + structural + goldens |
 
 Manual A/B (trained vs untrained same arch): `eval/AB_CHECKLIST.md` (non-gating).
 
 ## Out of scope
 
-Ollama, GGUF, Continue.dev, fine-tuning Qwen/Llama, cloud judges.
+Ollama, GGUF, Continue.dev, fine-tuning Qwen/Llama, cloud judges, MCP, LangChain, unrestricted shell.
 
 ## Licenses / attribution
 
@@ -100,11 +125,13 @@ No third-party base LLM weights in this path.
 
 ```text
 AGENTS.md  README.md  Makefile  requirements.txt
-train.py  generate.py
-model/  data/  scripts/  checkpoints/  eval/
+train.py  generate.py  agent.py
+model/  agent/  data/  scripts/  checkpoints/  eval/  workspace/
 features/local-coder-llm-m4/
+features/local-coder-cli-agent/
 ```
 
-## Feature package
+## Feature packages
 
-`features/local-coder-llm-m4/` — product/technical/acceptance/implement.
+- `features/local-coder-llm-m4/` — Path A nano toolkit
+- `features/local-coder-cli-agent/` — CLI agent with tools

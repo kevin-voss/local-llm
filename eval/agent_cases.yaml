@@ -1,0 +1,8 @@
+# Toy agent tasks for make eval-agent (AC-01 / AC-06)
+cases:
+  - id: hello-main
+    task: "Create hello/main.py that prints Hello"
+    expect_files:
+      - path: hello/main.py
+        contains: "Hello"
+    max_turns: 8

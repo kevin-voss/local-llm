@@ -86,13 +86,17 @@ def prompt_to_ids(tokenizer: Tokenizer, user_prompt: str, system: str | None = N
     return tokenizer.encode(text).ids
 
 
+def messages_to_ids(tokenizer: Tokenizer, messages: list[dict[str, str]]) -> list[int]:
+    text = serialize_chat(messages, include_assistant_start=True)
+    return tokenizer.encode(text).ids
+
+
 @torch.no_grad()
-def generate_text(
+def _generate_from_ids(
     model: GPT,
     tokenizer: Tokenizer,
-    prompt: str,
+    ids: list[int],
     *,
-    system: str | None = None,
     max_new_tokens: int = 256,
     temperature: float = 0.2,
     top_k: int | None = 40,
@@ -104,7 +108,6 @@ def generate_text(
         torch.manual_seed(seed)
         if device.type == "mps":
             torch.mps.manual_seed(seed)
-    ids = prompt_to_ids(tokenizer, prompt, system=system)
     # truncate from the left if needed, keep room for generation
     block = model.config.block_size
     if len(ids) >= block:
@@ -113,9 +116,8 @@ def generate_text(
     eos_id = tokenizer.token_to_id(SPECIAL["end"])
     t0 = time.perf_counter()
     first_token_at: float | None = None
-    # generate token-by-token to measure TTFT
     out = x
-    for i in range(max_new_tokens):
+    for _ in range(max_new_tokens):
         idx_cond = out[:, -block:]
         logits, _ = model(idx_cond)
         logits = logits[:, -1, :] / max(temperature, 1e-6)
@@ -144,6 +146,58 @@ def generate_text(
         "tok_per_s": n_new / elapsed,
         "elapsed_s": elapsed,
     }
+
+
+@torch.no_grad()
+def generate_text(
+    model: GPT,
+    tokenizer: Tokenizer,
+    prompt: str,
+    *,
+    system: str | None = None,
+    max_new_tokens: int = 256,
+    temperature: float = 0.2,
+    top_k: int | None = 40,
+    seed: int | None = 42,
+    device: torch.device | None = None,
+) -> dict[str, Any]:
+    ids = prompt_to_ids(tokenizer, prompt, system=system)
+    return _generate_from_ids(
+        model,
+        tokenizer,
+        ids,
+        max_new_tokens=max_new_tokens,
+        temperature=temperature,
+        top_k=top_k,
+        seed=seed,
+        device=device,
+    )
+
+
+@torch.no_grad()
+def generate_from_messages(
+    model: GPT,
+    tokenizer: Tokenizer,
+    messages: list[dict[str, str]],
+    *,
+    max_new_tokens: int = 256,
+    temperature: float = 0.2,
+    top_k: int | None = 40,
+    seed: int | None = 42,
+    device: torch.device | None = None,
+) -> dict[str, Any]:
+    """Multi-turn generation for the agent loop (system/user/assistant history)."""
+    ids = messages_to_ids(tokenizer, messages)
+    return _generate_from_ids(
+        model,
+        tokenizer,
+        ids,
+        max_new_tokens=max_new_tokens,
+        temperature=temperature,
+        top_k=top_k,
+        seed=seed,
+        device=device,
+    )
 
 
 def fresh_untrained(

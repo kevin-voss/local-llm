@@ -2,11 +2,11 @@
 PYTHON ?= .venv/bin/python
 PIP ?= .venv/bin/pip
 
-.PHONY: help venv data tokenizer train generate eval eval-latency eval-structural eval-goldens test smoke
+.PHONY: help venv data tokenizer train generate eval eval-latency eval-structural eval-goldens eval-agent test smoke
 
 help:
-	@echo "Path A targets: data tokenizer train eval (no Ollama)"
-	@echo "  make data tokenizer train eval"
+	@echo "Path A targets: data tokenizer train eval eval-agent (no Ollama)"
+	@echo "  make data tokenizer train eval eval-agent"
 
 venv:
 	python3 -m venv .venv
@@ -34,6 +34,9 @@ eval-goldens:
 	$(PYTHON) eval/run_eval.py --mode goldens
 
 eval: eval-latency eval-structural eval-goldens
+
+eval-agent:
+	$(PYTHON) eval/run_agent_eval.py
 
 test:
 	$(PYTHON) -m pytest -q
