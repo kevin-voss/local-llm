@@ -209,3 +209,4 @@ One agent, sequential. **Path A only** — do not add Ollama, GGUF, or pretraine
 | AC-05 | pass | 100 TS + 100 Java goldens | `make eval-goldens` | `4bf0b6f` |
 | AC-06 | pass | `make data tokenizer train` + generate | pipeline smoke | `4bf0b6f` |
 | AC-07 | pass | `eval/AB_CHECKLIST.md` non-gating | manual checklist present | `4bf0b6f` |
+| package VERIFIED | done | evidence SHAs + `status: VERIFIED` | — | `39980e3` |
