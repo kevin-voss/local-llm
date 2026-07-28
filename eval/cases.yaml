@@ -1,0 +1,49 @@
+# Structural eval cases (AC-03 / AC-04). Temperature ≤ 0.2, fixed seed.
+# Full tsc/javac on model output is NOT a v1 ship gate.
+
+defaults:
+  temperature: 0.2
+  seed: 42
+  max_new_tokens: 256
+
+cases:
+  - id: react-button
+    ac: AC-03
+    prompt: "Write a React TypeScript Button with label and onClick props."
+    require_fence_langs: [tsx, typescript]
+    must_include:
+      - "function"
+      - "interface"
+    must_not_include:
+      - "React.FC"
+      - ": any"
+      - " as any"
+
+  - id: react-counter
+    ac: AC-03
+    prompt: "React TS counter with useState."
+    require_fence_langs: [tsx, typescript]
+    must_include:
+      - "function"
+      - "useState"
+    must_not_include:
+      - "React.FC"
+      - ": any"
+
+  - id: java-record
+    ac: AC-04
+    prompt: "Java 17 record DTO for a user id and email."
+    require_fence_langs: [java]
+    must_include:
+      - "record"
+      - "public"
+    must_not_include: []
+
+  - id: java-service
+    ac: AC-04
+    prompt: "Small Java service that finds a user by id or throws."
+    require_fence_langs: [java]
+    must_include:
+      - "class"
+      - "public"
+    must_not_include: []

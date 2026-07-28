@@ -1,0 +1,52 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+eval/fixtures/node_modules/
+package-lock.json
+npm-debug.log*
+
+# Data / train artifacts (regenerate via Makefile)
+data/processed/
+data/raw/
+
+# Checkpoints (weights); keep directory via .gitkeep
+checkpoints/*.pt
+checkpoints/*.pth
+checkpoints/tokenizer.json
+checkpoints/tokenizer_meta.json
+
+# Eval outputs
+eval/results/
+eval/tmp/
+eval/fixtures/golden_ts/
+*.class
+
+# Hugging Face / model caches (local)
+.cache/
+huggingface/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Misc
+*.log
+.mlx/
+.ollama-tmp/

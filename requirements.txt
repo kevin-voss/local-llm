@@ -1,0 +1,8 @@
+# Local Coder LLM — Path A (PyTorch MPS, from scratch)
+torch>=2.2.0
+tokenizers>=0.19.0
+datasets>=2.19.0
+huggingface_hub>=0.23.0
+pyyaml>=6.0.1
+numpy>=1.26.0
+pytest>=8.0.0
