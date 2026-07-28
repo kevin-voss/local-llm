@@ -164,19 +164,19 @@ One agent, sequential. Stay on Path A — extend with `agent.py` tools; do not a
 
 | Step / AC | Status | Files or evidence | Tests | Commit |
 |-----------|--------|-------------------|-------|--------|
-| STEP-01 | done | `workspace/.gitkeep`, `.gitignore`, `README.md`, `AGENTS.md` | docs review | (feat commit) |
-| STEP-02 | done | `agent/sandbox.py`, `allowlist.py`, `parse.py` + unit tests | `pytest tests/test_agent_*.py` 26 agent + 2 model = 28 | (feat commit) |
-| STEP-03 | done | `agent/tools.py`, `tests/test_agent_tools.py` | confirm/deny/oversized | (feat commit) |
-| STEP-04 | done | `agent/loop.py`, `agent.py`, `generate_from_messages` | missing ckpt exit 2; mocked loop done | (feat commit) |
-| STEP-05 | done | `SYSTEM_TOOLS.md`, `tools.jsonl` (35 rows), `generate_tools_data.py` | all assistants parseable | (feat commit) |
-| STEP-06 | done | `make data` → 235 rows incl. tools; `make train` → `local-coder.pt`; `make eval-structural` PASS | tool strings in train.jsonl | (feat commit) |
-| STEP-07 | done | `eval/run_agent_eval.py`, `agent_cases.yaml`, `make eval-agent` | exit 0 | (feat commit) |
-| STEP-08 | done | UX logging; full AC matrix | `make test`, `make eval-agent`, generate smoke | (docs/verify commit) |
-| AC-01 | pass | `make eval-agent` hello-main → `workspace/eval-hello-main/hello/main.py` | live agent | |
-| AC-02 | pass | sandbox reject `../` / abs / symlink | `test_agent_sandbox.py` | |
-| AC-03 | pass | rm/curl/npm rejected | `test_agent_allowlist.py` | |
-| AC-04 | pass | fenced JSON parse; prose fails closed | `test_agent_parse.py` | |
-| AC-05 | pass | tools.jsonl in prepare; retrain docs | `make data` + README | |
-| AC-06 | pass | `make eval-agent` | units + toy | |
-| AC-07 | pass | confirm callback; `--yes` for eval | `test_agent_loop.py` / tools | |
-| AC-08 | pass | README + AGENTS agent + generate coexistence + honesty | review | |
+| STEP-01 | done | `workspace/.gitkeep`, `.gitignore`, `README.md`, `AGENTS.md` | docs review | dcf0c81 |
+| STEP-02 | done | `agent/sandbox.py`, `allowlist.py`, `parse.py` + unit tests | `pytest tests/test_agent_*.py` 26 agent + 2 model = 28 | dcf0c81 |
+| STEP-03 | done | `agent/tools.py`, `tests/test_agent_tools.py` | confirm/deny/oversized | dcf0c81 |
+| STEP-04 | done | `agent/loop.py`, `agent.py`, `generate_from_messages` | missing ckpt exit 2; mocked loop done | dcf0c81 |
+| STEP-05 | done | `SYSTEM_TOOLS.md`, `tools.jsonl` (35 rows), `generate_tools_data.py` | all assistants parseable | dcf0c81 |
+| STEP-06 | done | `make data` → 235 rows incl. tools; `make train` → `local-coder.pt`; `make eval-structural` PASS | tool strings in train.jsonl | dcf0c81 |
+| STEP-07 | done | `eval/run_agent_eval.py`, `agent_cases.yaml`, `make eval-agent` | exit 0 | dcf0c81 |
+| STEP-08 | done | UX logging; full AC matrix | `make test`, `make eval-agent`, generate smoke | (this package commit) |
+| AC-01 | pass | `make eval-agent` hello-main → `workspace/eval-hello-main/hello/main.py` | live agent | dcf0c81 |
+| AC-02 | pass | sandbox reject `../` / abs / symlink | `test_agent_sandbox.py` | dcf0c81 |
+| AC-03 | pass | rm/curl/npm rejected | `test_agent_allowlist.py` | dcf0c81 |
+| AC-04 | pass | fenced JSON parse; prose fails closed | `test_agent_parse.py` | dcf0c81 |
+| AC-05 | pass | tools.jsonl in prepare; retrain docs | `make data` + README | dcf0c81 |
+| AC-06 | pass | `make eval-agent` | units + toy | dcf0c81 |
+| AC-07 | pass | confirm callback; `--yes` for eval | `test_agent_loop.py` / tools | dcf0c81 |
+| AC-08 | pass | README + AGENTS agent + generate coexistence + honesty | review | dcf0c81 |

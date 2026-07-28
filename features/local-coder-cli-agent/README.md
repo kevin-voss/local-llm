@@ -1,10 +1,12 @@
 ---
 feature: Local Coder CLI Agent (tools for small apps)
 slug: local-coder-cli-agent
-status: IMPLEMENTING
+status: VERIFIED
 baseline_sha: 3e1dd7bc73827c32242197f4b6f78572369e916f
 created: 2026-07-29
 updated: 2026-07-29
+implementation_sha: dcf0c814b079ce631a4376960681eba704b2a20e
+verification_sha: pending
 ---
 
 # Local Coder CLI Agent (tools for small apps)
@@ -52,8 +54,16 @@ None.
 | Quality | DEC-11 | Ship gate = loop + sandbox + taught toys; not real apps |
 | Confirm default | DEC-12 | Interactive confirm on `run`; `--yes` for eval/CI |
 
+## Verification
+
+| Check | Result |
+|-------|--------|
+| `make test` | 28 passed |
+| `make eval-agent` | units + hello-main toy PASS |
+| `make eval-structural` | PASS post-retrain |
+| Missing ckpt | `agent.py` exit 2 |
+| Live smoke | `write_file` → `done` for hello/main.py |
+
 ## Handoff
 
-```text
-/implement-feature local-coder-cli-agent
-```
+Implemented on `main`. Retrain locally after pull if checkpoint is stale: `make data tokenizer train`.
