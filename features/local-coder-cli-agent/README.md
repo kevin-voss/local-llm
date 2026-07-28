@@ -6,7 +6,7 @@ baseline_sha: 3e1dd7bc73827c32242197f4b6f78572369e916f
 created: 2026-07-29
 updated: 2026-07-29
 implementation_sha: dcf0c814b079ce631a4376960681eba704b2a20e
-verification_sha: pending
+verification_sha: a3e6262b498200af45b20944f5fe5efad257edff
 ---
 
 # Local Coder CLI Agent (tools for small apps)

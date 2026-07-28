@@ -171,7 +171,7 @@ One agent, sequential. Stay on Path A — extend with `agent.py` tools; do not a
 | STEP-05 | done | `SYSTEM_TOOLS.md`, `tools.jsonl` (35 rows), `generate_tools_data.py` | all assistants parseable | dcf0c81 |
 | STEP-06 | done | `make data` → 235 rows incl. tools; `make train` → `local-coder.pt`; `make eval-structural` PASS | tool strings in train.jsonl | dcf0c81 |
 | STEP-07 | done | `eval/run_agent_eval.py`, `agent_cases.yaml`, `make eval-agent` | exit 0 | dcf0c81 |
-| STEP-08 | done | UX logging; full AC matrix | `make test`, `make eval-agent`, generate smoke | (this package commit) |
+| STEP-08 | done | UX logging; full AC matrix | `make test`, `make eval-agent`, generate smoke | a3e6262 |
 | AC-01 | pass | `make eval-agent` hello-main → `workspace/eval-hello-main/hello/main.py` | live agent | dcf0c81 |
 | AC-02 | pass | sandbox reject `../` / abs / symlink | `test_agent_sandbox.py` | dcf0c81 |
 | AC-03 | pass | rm/curl/npm rejected | `test_agent_allowlist.py` | dcf0c81 |
